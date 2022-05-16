@@ -11,7 +11,7 @@ BIN_DIR=$(cd "$(dirname "$0")"; pwd)
 ROOT_DIR=$(dirname "$BIN_DIR")
 
 function topic() {
-  echo "-----> $*"
+  echo "-----> libvips: $*"
 }
 
 binary="${ROOT_DIR}/build/${STACK}.tar.gz"
