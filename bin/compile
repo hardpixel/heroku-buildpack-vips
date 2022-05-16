@@ -11,16 +11,16 @@ BIN_DIR=$(cd "$(dirname "$0")"; pwd)
 ROOT_DIR=$(dirname "$BIN_DIR")
 
 function topic() {
-  echo "-----> libvips: $*"
+  echo "-----> vips: $*"
 }
 
 binary="${ROOT_DIR}/build/${STACK}.tar.gz"
 vendor="${BUILD_DIR}/vendor/vips"
 
-topic "Fetching $binary"
+topic "Vendoring binaries"
 mkdir -p $vendor && tar -xz -f $binary -C $vendor
 
-topic "Writing profile script"
+topic "Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 
 cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
