@@ -20,13 +20,6 @@ vendor="${BUILD_DIR}/vendor/vips"
 topic "Fetching $binary"
 mkdir -p $vendor && tar -xz -f $binary -C $vendor
 
-VIPS_PATH="$vendor/bin"
-VIPS_LD_LIBRARY_PATH="$vendor/lib"
-VIPS_LIBRARY_PATH="$vendor/lib"
-VIPS_CPATH="$vendor/include"
-VIPS_CPPPATH="$vendor/include"
-VIPS_PKG_CONFIG_PATH="$vendor/lib/pkgconfig"
-
 topic "Writing profile script"
 mkdir -p $BUILD_DIR/.profile.d
 
@@ -39,9 +32,9 @@ export CPPPATH="\$CPPPATH:\$HOME/vendor/vips/include"
 export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:\$HOME/vendor/vips/lib/pkgconfig"
 EOF
 
-export PATH="$PATH:${VIPS_PATH}"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${VIPS_LD_LIBRARY_PATH}"
-export LIBRARY_PATH="$LIBRARY_PATH:${VIPS_LIBRARY_PATH}"
-export CPATH="$CPATH:${VIPS_CPATH}"
-export CPPPATH="$CPPPATH:${VIPS_CPPPATH}"
-export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${VIPS_PKG_CONFIG_PATH}"
+export PATH="$PATH:$vendor/bin"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$vendor/lib"
+export LIBRARY_PATH="$LIBRARY_PATH:$vendor/lib"
+export CPATH="$CPATH:$vendor/include"
+export CPPPATH="$CPPPATH:$vendor/include"
+export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$vendor/lib/pkgconfig"
