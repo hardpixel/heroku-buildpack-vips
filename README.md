@@ -5,6 +5,7 @@ Heroku buildpack with [libvips](https://github.com/libvips/libvips) installed. A
 - heroku-16
 - heroku-18
 - heroku-20
+- heroku-22
 
 In order to use this buildpack, you must install these packages in your heroku application:
 
