@@ -49,6 +49,7 @@ ENV PKG_CONFIG_PATH=$VIPS_PREFIX/lib/pkgconfig
 # build area
 WORKDIR /usr/local/src
 
+# build giflib
 ARG GIFLIB_VERSION=5.1.4
 ARG GIFLIB_URL=http://downloads.sourceforge.net/project/giflib
 
@@ -59,6 +60,7 @@ RUN wget ${GIFLIB_URL}/giflib-$GIFLIB_VERSION.tar.bz2 \
   && make V=0 \
   && make install
 
+# build liborc
 ARG ORC_VERSION=0.4.28
 ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
 
@@ -70,6 +72,7 @@ RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
   && make V=0 \
   && make install
 
+# build libgsf
 ARG GSF_VERSION=1.14.42
 ARG GSF_URL=http://ftp.gnome.org/pub/GNOME/sources/libgsf
 
@@ -80,6 +83,7 @@ RUN wget ${GSF_URL}/${GSF_VERSION%.*}/libgsf-$GSF_VERSION.tar.xz \
   && make V=0 \
   && make install
 
+# build libde265
 ARG DE265_VERSION=1.0.8
 ARG DE265_URL=https://github.com/strukturag/libde265/releases/download
 
@@ -91,6 +95,7 @@ RUN wget ${DE265_URL}/v${DE265_VERSION}/libde265-${DE265_VERSION}.tar.gz \
   && make V=0 \
   && make install
 
+# build libheif
 ARG HEIF_VERSION=1.10.0
 ARG HEIF_URL=https://github.com/strukturag/libheif/releases/download
 
@@ -101,7 +106,8 @@ RUN wget ${HEIF_URL}/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz \
   && make V=0 \
   && make install
 
-ARG VIPS_VERSION=8.10.5
+# build libvips
+ARG VIPS_VERSION=8.13.0
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
@@ -120,9 +126,15 @@ RUN cd $VIPS_PREFIX \
   && rm -rf share/man \
   && rm -rf share/thumbnailers
 
-# I don't know why, but I have to bring this in again. Maybe "FROM" resets it?
+# export build artifacts
 ARG STACK_VERSION
 RUN cd $VIPS_PREFIX \
   && rm -rf build \
   && mkdir build \
   && tar czf "build/heroku-${STACK_VERSION}.tar.gz" bin include lib
+
+# test with ruby-vips
+ENV LD_LIBRARY_PATH=$VIPS_PREFIX/lib
+RUN apt-get install -y ruby-dev
+RUN gem install ruby-vips
+RUN ruby -e 'require "ruby-vips"; puts "success!"'
