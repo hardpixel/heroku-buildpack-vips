@@ -2,7 +2,6 @@
 
 Heroku buildpack with [libvips](https://github.com/libvips/libvips) installed. A VIPS buildpack for the modern Heroku stacks. It supports the following stacks:
 
-- heroku-16
 - heroku-18
 - heroku-20
 - heroku-22
