@@ -35,7 +35,7 @@ Git add the files and deploy to Heroku. You can verify the result by running thi
 
 ```
 $ heroku run vips -v
-vips-8.12.2-Tue Jan 25 09:34:32 UTC 2022
+vips-8.13.0-Thu Jul 21 13:59:28 UTC 2022
 ```
 
 ## Build
