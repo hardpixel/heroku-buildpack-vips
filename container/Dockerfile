@@ -61,7 +61,7 @@ RUN wget ${GIFLIB_URL}/giflib-$GIFLIB_VERSION.tar.bz2 \
   && make install
 
 # build liborc
-ARG ORC_VERSION=0.4.28
+ARG ORC_VERSION=0.4.29
 ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
 
 RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
@@ -73,7 +73,7 @@ RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
   && make install
 
 # build libgsf
-ARG GSF_VERSION=1.14.42
+ARG GSF_VERSION=1.14.50
 ARG GSF_URL=http://ftp.gnome.org/pub/GNOME/sources/libgsf
 
 RUN wget ${GSF_URL}/${GSF_VERSION%.*}/libgsf-$GSF_VERSION.tar.xz \
@@ -96,7 +96,7 @@ RUN wget ${DE265_URL}/v${DE265_VERSION}/libde265-${DE265_VERSION}.tar.gz \
   && make install
 
 # build libheif
-ARG HEIF_VERSION=1.10.0
+ARG HEIF_VERSION=1.13.0
 ARG HEIF_URL=https://github.com/strukturag/libheif/releases/download
 
 RUN wget ${HEIF_URL}/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz \
