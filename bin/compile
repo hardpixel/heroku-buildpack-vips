@@ -5,6 +5,7 @@ set -e
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
 BUILDPACK_NAME=vips
 BIN_DIR=$(cd "$(dirname "$0")"; pwd)
@@ -38,3 +39,6 @@ export LIBRARY_PATH="$LIBRARY_PATH:$vendor/lib"
 export CPATH="$CPATH:$vendor/include"
 export CPPPATH="$CPPPATH:$vendor/include"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$vendor/lib/pkgconfig"
+
+# Give environment to later buildpacks
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)=' > "$LP_DIR/export"
