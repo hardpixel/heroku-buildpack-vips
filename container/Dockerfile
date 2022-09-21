@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
   autoconf \
   automake \
   cmake \
+  python3-pip \
+  ninja-build \
   libtool \
   intltool \
   gtk-doc-tools \
@@ -17,6 +19,8 @@ RUN apt-get update && apt-get install -y \
   wget \
   git \
   pkg-config
+
+RUN pip3 install meson
 
 # heroku buildpacks include some libraries, like tiff and jpeg, as part of the
 # run-time platform, and we want to use those libs if we can
@@ -50,16 +54,16 @@ ENV PKG_CONFIG_PATH=$VIPS_PREFIX/lib/pkgconfig
 WORKDIR /usr/local/src
 
 # build liborc
-ARG ORC_VERSION=0.4.29
+ARG ORC_VERSION=0.4.32
 ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
 
 RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
   && tar xf orc-${ORC_VERSION}.tar.xz \
   && cd orc-${ORC_VERSION} \
-  && ./autogen.sh \
-  && ./configure --prefix=$VIPS_PREFIX --disable-gtk-doc \
-  && make V=0 \
-  && make install
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && cd build \
+  && ninja \
+  && ninja install
 
 # build libgsf
 ARG GSF_VERSION=1.14.50
