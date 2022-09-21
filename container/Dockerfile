@@ -88,6 +88,18 @@ RUN git clone $IMAGEQUANT_URL \
   && ninja \
   && ninja install
 
+# build libcgif
+ARG CGIF_VERSION=0.3.0
+ARG CGIF_URL=https://github.com/dloebl/cgif/archive/refs/tags
+
+RUN wget ${CGIF_URL}/V${CGIF_VERSION}.tar.gz \
+  && tar xf V${CGIF_VERSION}.tar.gz \
+  && cd cgif-${CGIF_VERSION} \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && cd build \
+  && ninja \
+  && ninja install
+
 # build libde265
 ARG DE265_VERSION=1.0.8
 ARG DE265_URL=https://github.com/strukturag/libde265/releases/download
