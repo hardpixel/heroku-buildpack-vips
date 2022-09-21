@@ -1,5 +1,5 @@
 $ vips --vips-version
-libvips 8.13.0-Thu Jul 21 13:59:28 UTC 2022
+libvips 8.13.1-Sat Sep  3 14:32:44 UTC 2022
 
 $ vips --vips-config
 enable debug: no
@@ -15,14 +15,14 @@ RAD load/save: yes
 Analyze7 load/save: yes
 PPM load/save: yes
 GIF load:  yes
-GIF save with cgif: no
+GIF save with cgif: yes
 EXIF metadata support with libexif: yes
 JPEG load/save with libjpeg: yes (pkg-config)
 JXL load/save with libjxl: no (dynamic module: no)
 JPEG2000 load/save with libopenjp2: yes
-PNG load with libspng: no
-PNG load/save with libpng: yes (pkg-config libpng >= 1.2.9)
-selected quantisation package: 
+PNG load with libspng: yes
+PNG load/save with libpng: no
+selected quantisation package: imagequant
 TIFF load/save with libtiff: yes (pkg-config libtiff-4)
 image pyramid save: yes
 HEIC/AVIF load/save with libheif: yes (dynamic module: no)
