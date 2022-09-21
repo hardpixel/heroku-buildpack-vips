@@ -128,12 +128,9 @@ RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
 
 # clean the build area ready for packaging
 RUN cd $VIPS_PREFIX \
-  && rm bin/orc* bin/gsf* bin/batch_* bin/vips-* \
-  && rm bin/vipsprofile bin/light_correct bin/shrink_width \
-  && strip lib/*.a lib/lib*.so* \
-  && rm -rf share/gtk-doc \
-  && rm -rf share/man \
-  && rm -rf share/thumbnailers
+  && find bin/* -maxdepth 1 -not -name 'vips*' -delete \
+  && rm bin/vips-* lib/*.a lib/*.la \
+  && strip lib/lib*.so*
 
 # export build artifacts
 ARG STACK_VERSION
