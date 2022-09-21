@@ -28,6 +28,7 @@ cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
 export PATH="\$PATH:\$HOME/vendor/vips/bin"
 export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:\$HOME/vendor/vips/lib"
 export LIBRARY_PATH="\$LIBRARY_PATH:\$HOME/vendor/vips/lib"
+export INCLUDE_PATH="\$INCLUDE_PATH:\$HOME/vendor/vips/include"
 export CPATH="\$CPATH:\$HOME/vendor/vips/include"
 export CPPPATH="\$CPPPATH:\$HOME/vendor/vips/include"
 export PKG_CONFIG_PATH="\$PKG_CONFIG_PATH:\$HOME/vendor/vips/lib/pkgconfig"
@@ -36,9 +37,10 @@ EOF
 export PATH="$PATH:$vendor/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$vendor/lib"
 export LIBRARY_PATH="$LIBRARY_PATH:$vendor/lib"
+export INCLUDE_PATH="$INCLUDE_PATH:$vendor/include"
 export CPATH="$CPATH:$vendor/include"
 export CPPPATH="$CPPPATH:$vendor/include"
 export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$vendor/lib/pkgconfig"
 
 # Give environment to later buildpacks
-export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)=' > "$LP_DIR/export"
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)=' > "$LP_DIR/export"
