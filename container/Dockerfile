@@ -7,17 +7,9 @@ ENV DEBIAN_FRONTEND noninteractive
 # pre-baked tarballs
 RUN apt-get update && apt-get install -y \
   build-essential \
-  autoconf \
-  automake \
-  cmake \
   python3-pip \
   ninja-build \
-  libtool \
   intltool \
-  gtk-doc-tools \
-  unzip \
-  wget \
-  git \
   pkg-config
 
 RUN pip3 install meson
