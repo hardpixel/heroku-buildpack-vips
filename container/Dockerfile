@@ -92,6 +92,18 @@ RUN wget ${CGIF_URL}/V${CGIF_VERSION}.tar.gz \
   && ninja \
   && ninja install
 
+# build libspng
+ARG SPNG_VERSION=0.7.2
+ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
+
+RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
+  && tar xf v${SPNG_VERSION}.tar.gz \
+  && cd libspng-${SPNG_VERSION} \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && cd build \
+  && ninja \
+  && ninja install
+
 # build libde265
 ARG DE265_VERSION=1.0.8
 ARG DE265_URL=https://github.com/strukturag/libde265/releases/download
