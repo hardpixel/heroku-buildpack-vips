@@ -76,6 +76,18 @@ RUN wget ${GSF_URL}/${GSF_VERSION%.*}/libgsf-$GSF_VERSION.tar.xz \
   && make V=0 \
   && make install
 
+# build libimagequant
+ARG IMAGEQUANT_VERSION=main
+ARG IMAGEQUANT_URL=https://github.com/lovell/libimagequant
+
+RUN git clone $IMAGEQUANT_URL \
+  && cd libimagequant \
+  && git checkout $IMAGEQUANT_VERSION \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && cd build \
+  && ninja \
+  && ninja install
+
 # build libde265
 ARG DE265_VERSION=1.0.8
 ARG DE265_URL=https://github.com/strukturag/libde265/releases/download
