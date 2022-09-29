@@ -31,7 +31,6 @@ jobs:
           push: false
           file: container/Dockerfile
           tags: ${{ env.vips_image }}
-          context: build
           build-args: |
             VIPS_VERSION=${{ github.event.inputs.version }}
             STACK_VERSION=${{ matrix.stack }}
