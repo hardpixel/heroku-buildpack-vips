@@ -5,6 +5,8 @@ set -e
 STACK_VERSIONS=(18 20 22)
 
 for stack_version in "${STACK_VERSIONS[@]}"; do
+  mkdir -p build
+
   image_name=libvips/heroku-$stack_version:$VIPS_VERSION
 
   docker build \
@@ -14,7 +16,6 @@ for stack_version in "${STACK_VERSIONS[@]}"; do
     --tag $image_name \
     build
 
-  mkdir -p build
   docker cp $(docker create $image_name):/usr/local/vips/build/. build
 
   image_name=libvips/heroku-test-$stack_version:$VIPS_VERSION
