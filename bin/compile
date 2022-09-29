@@ -1,30 +1,91 @@
 #!/usr/bin/env bash
-# bin/compile <build-dir> <cache-dir>
+# bin/compile <build-dir> <cache-dir> <env-dir>
 
 set -e
 
 BUILD_DIR=$1
 CACHE_DIR=$2
+ENV_DIR=$3
+
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-BUILDPACK_NAME=vips
-BIN_DIR=$(cd "$(dirname "$0")"; pwd)
-ROOT_DIR=$(dirname "$BIN_DIR")
+# Github repo url
+repo="https://github.com/hardpixel/heroku-buildpack-vips"
+
+# Default version
+version="8.13.2"
+
+# Get version from environment variable
+if [ -f $ENV_DIR/VIPS_VERSION ]; then
+  version=$(cat $ENV_DIR/VIPS_VERSION)
+fi
 
 function topic() {
   echo "-----> vips: $*"
 }
 
-binary="${ROOT_DIR}/build/${STACK}.tar.gz"
-vendor="${BUILD_DIR}/vendor/vips"
+function message() {
+  echo "       vips: $*"
+}
 
-topic "Vendoring binaries"
-mkdir -p $vendor && tar -xz -f $binary -C $vendor
+vendor="${BUILD_DIR}/vendor/vips"
+bundle="${CACHE_DIR}/vips/$version"
+
+function cached() {
+  if [[ ! -d $bundle ]]; then
+    return 1
+  fi
+
+  if [ -f "$bundle/.stack" ]; then
+    CACHED_STACK=$(cat $bundle/.stack)
+  fi
+
+  # True when the downloaded version in the cache is for the same stack as the
+  # compiling dyno. CACHED_STACK will be empty when the .stack file is missing
+  # which also forces a fresh download
+  [[ $CACHED_STACK == $STACK ]]
+}
+
+function download() {
+  # Disable exit on failure to provide better error messages
+  set +e
+
+  url="${repo}/releases/download/v${version}/${STACK}.tar.gz"
+
+  message "Fetching $url"
+  status=$(curl -sL -f  -w "%{http_code}" -o /tmp/vips.tar.gz $url)
+
+  if [[ $status -ge 300 ]]; then
+    message "Server returned HTTP $status"
+    exit 1
+  fi
+
+  # Reenable exit on failure
+  set -e
+
+  mkdir -p $bundle
+  tar -xz -f /tmp/vips.tar.gz -C $bundle
+
+  # Store the stack version (e.g. heroku-20) that was downloaded to force a
+  # redownload should the stack change
+  echo "$STACK" > "$bundle/.stack"
+}
+
+topic "Vendoring $version"
+
+# Check if this version of vips is in the cache and download it
+# if it doesn't exist
+if ! cached; then
+  download
+fi
+
+mkdir -p $vendor
+cp -r $bundle -T $vendor/
 
 topic "Building runtime environment"
 mkdir -p $BUILD_DIR/.profile.d
 
-cat <<EOF > $BUILD_DIR/.profile.d/$BUILDPACK_NAME.sh
+cat <<EOF > $BUILD_DIR/.profile.d/vips.sh
 export PATH="\$PATH:\$HOME/vendor/vips/bin"
 export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:\$HOME/vendor/vips/lib"
 export LIBRARY_PATH="\$LIBRARY_PATH:\$HOME/vendor/vips/lib"
