@@ -45,6 +45,13 @@ ENV PKG_CONFIG_PATH=$VIPS_PREFIX/lib/pkgconfig
 # build area
 WORKDIR /usr/local/src
 
+# install cmake
+ARG CMAKE_VERSION=3.24.2
+ARG CMAKE_URL=https://github.com/Kitware/CMake/releases/download
+
+RUN wget ${CMAKE_URL}/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz \
+  && tar xf cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz --strip-components=1 -C /usr/local
+
 # build liborc
 ARG ORC_VERSION=0.4.32
 ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
@@ -113,6 +120,17 @@ RUN wget ${DE265_URL}/v${DE265_VERSION}/libde265-${DE265_VERSION}.tar.gz \
   && cd libde265-${DE265_VERSION} \
   && ./autogen.sh \
   && ./configure --prefix=$VIPS_PREFIX \
+  && make V=0 \
+  && make install
+
+# build libx265
+ARG X265_VERSION=3.5
+ARG X265_URL=https://bitbucket.org/multicoreware/x265_git/downloads
+
+RUN wget ${X265_URL}/x265_${X265_VERSION}.tar.gz \
+  && tar xf x265_${X265_VERSION}.tar.gz \
+  && cd x265_${X265_VERSION} \
+  && cmake --install-prefix=$VIPS_PREFIX -G "Unix Makefiles" source \
   && make V=0 \
   && make install
 
