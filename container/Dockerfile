@@ -159,9 +159,3 @@ RUN cd $VIPS_PREFIX \
   && echo "" >> "build/heroku-${STACK_VERSION}.config.log" \
   && echo "$ vips --vips-config" >> "build/heroku-${STACK_VERSION}.config.log" \
   && ./bin/vips --vips-config >> "build/heroku-${STACK_VERSION}.config.log"
-
-# test with ruby-vips
-ENV LD_LIBRARY_PATH=$VIPS_PREFIX/lib
-RUN apt-get install -y ruby-dev
-RUN gem install ruby-vips
-RUN ruby -e 'require "vips"; puts "ruby-vips: libvips #{Vips::LIBRARY_VERSION}"'

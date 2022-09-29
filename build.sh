@@ -17,4 +17,12 @@ for stack_version in "${STACK_VERSIONS[@]}"; do
 
   docker run --rm -t -v $PWD/build:/build --user $(id -u):$(id -g) \
     $image_name sh -c "cp -rf /usr/local/vips/build/* /build"
+
+  image_name=libvips-heroku-test-$stack_version:$VIPS_VERSION
+
+  docker build \
+    --file container/Dockerfile.test \
+    --build-arg STACK_VERSION=${stack_version} \
+    -t $image_name \
+    build
 done

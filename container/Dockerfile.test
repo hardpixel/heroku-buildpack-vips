@@ -1,0 +1,42 @@
+ARG STACK_VERSION
+FROM heroku/heroku:$STACK_VERSION
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# install test dependencies
+RUN apt-get update && apt-get install -y \
+  libglib2.0-0 \
+  libglib2.0-dev \
+  libpoppler-glib8 \
+  ruby-dev
+
+# install gem dependencies
+RUN gem install bundler ruby-vips
+
+# test our stack to this prefix
+ARG VIPS_PREFIX=/usr/local/vips
+
+# test area
+WORKDIR /usr/local/src
+
+# copy pre-built stack package
+ARG STACK_VERSION
+COPY heroku-$STACK_VERSION.tar.gz .
+
+# extract vips library files
+ARG STACK_VERSION
+RUN mkdir -p $VIPS_PREFIX \
+  && cd $VIPS_PREFIX \
+  && tar xf /usr/local/src/heroku-$STACK_VERSION.tar.gz
+
+# set environment variables
+ENV PATH=$PATH:$VIPS_PREFIX/bin
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$VIPS_PREFIX/lib
+ENV LIBRARY_PATH=$LIBRARY_PATH:$VIPS_PREFIX/lib
+ENV INCLUDE_PATH=$INCLUDE_PATH:$VIPS_PREFIX/include
+ENV CPATH=$CPATH:$VIPS_PREFIX/include
+ENV CPPPATH=$CPPPATH:$VIPS_PREFIX/include
+ENV PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$VIPS_PREFIX/lib/pkgconfig
+
+# test vips installation
+RUN ruby -e 'require "vips"; puts "ruby-vips: libvips #{Vips::LIBRARY_VERSION}"'
