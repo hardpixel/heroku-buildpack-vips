@@ -51,3 +51,13 @@ jobs:
           tags: ${{ env.test_image }}
           context: ${{ steps.extract.outputs.destination }}
           build-args: STACK_VERSION=${{ matrix.stack }}
+
+      - name: Upload assets
+        if: ${{ !env.ACT }}
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          overwrite: true
+          file: ${{ steps.extract.outputs.destination }}/*
+          tag: v${{ github.event.inputs.version }}
+          body: Heroku binaries for libvips v${{ github.event.inputs.version }}
