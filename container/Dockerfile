@@ -23,6 +23,7 @@ RUN pip3 install meson
 RUN apt-get update && apt-get install -y \
   glib-2.0-dev \
   libexpat-dev \
+  libpango1.0-dev \
   librsvg2-dev \
   libpng-dev \
   libjpeg-dev \
