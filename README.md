@@ -38,15 +38,13 @@ $ heroku run vips -v
 vips-8.13.2-Thu Sep 29 04:55:26 UTC 2022
 ```
 
-## Build
+## Configuration
 
-[This](./build.sh) is the script used to build libvips using docker.
+You can select the preferred version by setting the `VIPS_VERSION` environment variable. It defaults to the latest stable [release](https://github.com/libvips/libvips/releases). Check the available versions in the [releases](https://github.com/hardpixel/heroku-buildpack-vips/releases) page.
 
 ```
-VIPS_VERSION=x.y.z ./build.sh
+$ heroku config:set VIPS_VERSION=8.13.0
 ```
-
-After building a tar file, it will be copied to the `build` directory. Then you should commit the changes to git.
 
 ## License
 
