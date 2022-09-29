@@ -1,5 +1,5 @@
 $ vips --vips-version
-libvips 8.13.1-Sat Sep  3 14:32:44 UTC 2022
+libvips 8.13.2-Thu Sep 29 04:55:26 UTC 2022
 
 $ vips --vips-config
 enable debug: no
