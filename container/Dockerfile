@@ -32,7 +32,6 @@ RUN apt-get update && apt-get install -y \
   liblcms2-dev \
   libxml2-dev \
   libfftw3-dev \
-  libpoppler-glib-dev \
   libwebp-dev \
   libmagickcore-dev
 
@@ -145,6 +144,31 @@ RUN wget ${HEIF_URL}/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz \
   && ./configure --prefix=$VIPS_PREFIX \
   && make V=0 \
   && make install
+
+# build libpdfium
+ARG PDFIUM_VERSION=5323
+ARG PDFIUM_URL=https://github.com/bblanchon/pdfium-binaries/releases/latest/download
+
+RUN wget $PDFIUM_URL/pdfium-linux-x64.tgz \
+  && mkdir pdfium \
+  && cd pdfium \
+  && tar xf ../pdfium-linux-x64.tgz \
+  && cp lib/* $VIPS_PREFIX/lib \
+  && cp -r include/* $VIPS_PREFIX/include
+
+# make a pdfium.pc file libvips can use
+RUN mkdir -p $VIPS_PREFIX/lib/pkgconfig \
+  && cd $VIPS_PREFIX/lib/pkgconfig \
+  && echo "prefix=$VIPS_PREFIX" >> pdfium.pc \
+  && echo "exec_prefix=\${prefix}" >> pdfium.pc \
+  && echo "libdir=\${exec_prefix}/lib" >> pdfium.pc \
+  && echo "includedir=\${prefix}/include" >> pdfium.pc \
+  && echo "Name: pdfium" >> pdfium.pc \
+  && echo "Description: pdfium" >> pdfium.pc \
+  && echo "Version: $PDFIUM_VERSION" >> pdfium.pc \
+  && echo "Requires: " >> pdfium.pc \
+  && echo "Libs: -L\${libdir} -lpdfium" >> pdfium.pc \
+  && echo "Cflags: -I\${includedir}" >> pdfium.pc
 
 # build libvips
 ARG VIPS_VERSION=8.13.0

@@ -5,9 +5,6 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # install test dependencies
 RUN apt-get update && apt-get install -y \
-  libglib2.0-0 \
-  libglib2.0-dev \
-  libpoppler-glib8 \
   ruby-dev
 
 # install gem dependencies
