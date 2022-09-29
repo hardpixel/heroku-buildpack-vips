@@ -1,37 +1,22 @@
 # heroku-buildpack-vips
 
-Heroku buildpack with [libvips](https://github.com/libvips/libvips) installed. A VIPS buildpack for the modern Heroku stacks. It supports the following stacks:
+Heroku buildpack with [libvips](https://github.com/libvips/libvips) installed. A buildpack for the modern Heroku stacks.
 
-- heroku-18
-- heroku-20
-- heroku-22
-
-In order to use this buildpack, you must install these packages in your heroku application:
-
-- libglib2.0-0
-- libglib2.0-dev
-- libpoppler-glib8
-
-The easiest way to do this is using the heroku [apt](https://github.com/heroku/heroku-buildpack-apt) buildpack.
+[![Vips](https://img.shields.io/github/v/tag/hardpixel/heroku-buildpack-vips?label=vips&logo=hack-the-box)](https://github.com/hardpixel/heroku-buildpack-vips/releases)
+[![Heroku 18](https://img.shields.io/badge/stack-18-904edf?logo=heroku)](https://github.com/hardpixel/heroku-buildpack-vips/releases)
+[![Heroku 20](https://img.shields.io/badge/stack-20-904edf?logo=heroku)](https://github.com/hardpixel/heroku-buildpack-vips/releases)
+[![Heroku 22](https://img.shields.io/badge/stack-22-904edf?logo=heroku)](https://github.com/hardpixel/heroku-buildpack-vips/releases)
+[![Build](https://github.com/hardpixel/heroku-buildpack-vips/actions/workflows/build.yml/badge.svg)](https://github.com/hardpixel/heroku-buildpack-vips/actions/workflows/build.yml)
 
 ## Usage
 
 Run the commands below to add this buildpack and apt buildpack to your app:
 
 ```
-$ heroku buildpacks:add --index 1 https://github.com/heroku/heroku-buildpack-apt
-$ heroku buildpacks:add --index 2 https://github.com/brandoncc/heroku-buildpack-vips
+$ heroku buildpacks:add --index 1 https://github.com/hardpixel/heroku-buildpack-vips
 ```
 
-Create a new file named `Aptfile` in your project root with the following contents:
-
-```
-libglib2.0-0
-libglib2.0-dev
-libpoppler-glib8
-```
-
-Git add the files and deploy to Heroku. You can verify the result by running this command:
+Deploy to Heroku and verify the result by running this command:
 
 ```
 $ heroku run vips -v
