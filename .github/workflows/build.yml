@@ -1,0 +1,50 @@
+---
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: VIPS version
+        required: true
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        stack: [18, 20, 22]
+    runs-on: ubuntu-latest
+
+    env:
+      vips_image: libvips/heroku-${{ matrix.stack }}:${{ github.event.inputs.version }}
+      test_image: libvips/heroku-test-${{ matrix.stack }}:${{ github.event.inputs.version }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build package
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          file: container/Dockerfile
+          tags: ${{ env.vips_image }}
+          context: build
+          build-args: |
+            VIPS_VERSION=${{ github.event.inputs.version }}
+            STACK_VERSION=${{ matrix.stack }}
+
+      - name: Extract assets
+        id: extract
+        uses: shrink/actions-docker-extract@v1
+        with:
+          image: ${{ env.vips_image }}
+          path: usr/local/vips/build/.
+
+      - name: Test package
+        uses: docker/build-push-action@v2
+        with:
+          push: false
+          file: container/Dockerfile.test
+          tags: ${{ env.test_image }}
+          context: ${{ steps.extract.outputs.destination }}
+          build-args: STACK_VERSION=${{ matrix.stack }}
