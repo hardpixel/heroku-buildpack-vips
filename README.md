@@ -20,7 +20,7 @@ Deploy to Heroku and verify the result by running this command:
 
 ```
 $ heroku run vips -v
-vips-8.13.2-Thu Sep 29 04:55:26 UTC 2022
+vips 8.13.3-Tue Nov  1 09:09:54 UTC 2022
 ```
 
 ## Configuration

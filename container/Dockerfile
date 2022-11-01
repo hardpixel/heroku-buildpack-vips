@@ -171,7 +171,7 @@ RUN mkdir -p $VIPS_PREFIX/lib/pkgconfig \
   && echo "Cflags: -I\${includedir}" >> pdfium.pc
 
 # build libvips
-ARG VIPS_VERSION=8.13.0
+ARG VIPS_VERSION=8.13.3
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
