@@ -10,7 +10,7 @@ Heroku buildpack with [libvips](https://github.com/libvips/libvips) installed. A
 
 ## Usage
 
-Run the commands below to add this buildpack and apt buildpack to your app:
+Run the commands below to add this buildpack to your app:
 
 ```
 $ heroku buildpacks:add --index 1 https://github.com/hardpixel/heroku-buildpack-vips
