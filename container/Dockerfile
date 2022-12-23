@@ -46,14 +46,14 @@ ENV PKG_CONFIG_PATH=$VIPS_PREFIX/lib/pkgconfig
 WORKDIR /usr/local/src
 
 # install cmake
-ARG CMAKE_VERSION=3.24.2
+ARG CMAKE_VERSION=3.25.1
 ARG CMAKE_URL=https://github.com/Kitware/CMake/releases/download
 
 RUN wget ${CMAKE_URL}/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz \
   && tar xf cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz --strip-components=1 -C /usr/local
 
 # build liborc
-ARG ORC_VERSION=0.4.32
+ARG ORC_VERSION=0.4.33
 ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
 
 RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
@@ -100,7 +100,7 @@ RUN wget ${CGIF_URL}/V${CGIF_VERSION}.tar.gz \
   && ninja install
 
 # build libspng
-ARG SPNG_VERSION=0.7.2
+ARG SPNG_VERSION=0.7.3
 ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
 
 RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
@@ -112,7 +112,7 @@ RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
   && ninja install
 
 # build libde265
-ARG DE265_VERSION=1.0.8
+ARG DE265_VERSION=1.0.9
 ARG DE265_URL=https://github.com/strukturag/libde265/releases/download
 
 RUN wget ${DE265_URL}/v${DE265_VERSION}/libde265-${DE265_VERSION}.tar.gz \
@@ -135,7 +135,7 @@ RUN wget ${X265_URL}/x265_${X265_VERSION}.tar.gz \
   && make install
 
 # build libheif
-ARG HEIF_VERSION=1.13.0
+ARG HEIF_VERSION=1.14.0
 ARG HEIF_URL=https://github.com/strukturag/libheif/releases/download
 
 RUN wget ${HEIF_URL}/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz \
@@ -146,7 +146,7 @@ RUN wget ${HEIF_URL}/v${HEIF_VERSION}/libheif-${HEIF_VERSION}.tar.gz \
   && make install
 
 # build libpdfium
-ARG PDFIUM_VERSION=5323
+ARG PDFIUM_VERSION=5485
 ARG PDFIUM_URL=https://github.com/bblanchon/pdfium-binaries/releases/latest/download
 
 RUN wget $PDFIUM_URL/pdfium-linux-x64.tgz \
