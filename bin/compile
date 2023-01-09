@@ -13,7 +13,7 @@ LP_DIR=`cd $(dirname $0); cd ..; pwd`
 repo="https://github.com/hardpixel/heroku-buildpack-vips"
 
 # Default version
-version="8.13.3"
+version="8.14.1"
 
 # Get version from environment variable
 if [ -f $ENV_DIR/VIPS_VERSION ]; then
