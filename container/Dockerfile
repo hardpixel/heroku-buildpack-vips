@@ -22,6 +22,7 @@ RUN pip3 install meson
 # libgsf needs libxml2
 RUN apt-get update && apt-get install -y \
   glib-2.0-dev \
+  libgirepository1.0-dev \
   libexpat-dev \
   libpango1.0-dev \
   librsvg2-dev \
@@ -172,19 +173,20 @@ RUN mkdir -p $VIPS_PREFIX/lib/pkgconfig \
 
 # build libvips
 ARG VIPS_VERSION=8.13.3
-ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
+ARG VIPS_URL=https://github.com/libvips/libvips/archive/refs/tags
 
-RUN wget ${VIPS_URL}/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz \
-  && tar xzf vips-${VIPS_VERSION}.tar.gz \
-  && cd vips-${VIPS_VERSION} \
-  && ./configure --prefix=$VIPS_PREFIX \
-  && make V=0 \
-  && make install
+RUN wget ${VIPS_URL}/v${VIPS_VERSION}/v${VIPS_VERSION}.tar.gz \
+  && tar xf v${VIPS_VERSION}.tar.gz \
+  && cd libvips-${VIPS_VERSION} \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
+  && cd build \
+  && ninja \
+  && ninja install
 
 # clean the build area ready for packaging
 RUN cd $VIPS_PREFIX \
   && find bin/* -maxdepth 1 -not -name 'vips*' -delete \
-  && rm bin/vips-* lib/*.a lib/*.la \
+  && rm -f bin/vips-* lib/*.a lib/*.la \
   && strip lib/lib*.so*
 
 # export build artifacts
