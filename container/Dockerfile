@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
   python3-pip \
   ninja-build \
   intltool \
+  libtool \
   pkg-config
 
 RUN pip3 install meson
