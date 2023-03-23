@@ -31,6 +31,8 @@ You can select the preferred version by setting the `VIPS_VERSION` environment v
 $ heroku config:set VIPS_VERSION=8.13.0
 ```
 
+### Untrusted operations
+
 You can block untrusted operations at runtime by setting the `VIPS_BLOCK_UNTRUSTED` environment variable. Then any operation that is tagged as untrusted will be prevented from running. More information available [here](https://www.libvips.org/2022/05/28/What's-new-in-8.13.html#blocking-of-unfuzzed-loaders).
 
 ```
