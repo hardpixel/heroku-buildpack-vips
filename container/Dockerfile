@@ -32,8 +32,7 @@ RUN apt-get update && apt-get install -y \
   liblcms2-dev \
   libxml2-dev \
   libfftw3-dev \
-  libwebp-dev \
-  libmagickcore-dev
+  libwebp-dev
 
 # build our stack to this prefix
 ARG VIPS_PREFIX=/usr/local/vips
