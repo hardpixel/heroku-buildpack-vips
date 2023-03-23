@@ -23,7 +23,6 @@ RUN pip3 install meson
 # libgsf needs libxml2
 RUN apt-get update && apt-get install -y \
   glib-2.0-dev \
-  libgirepository1.0-dev \
   libexpat-dev \
   libpango1.0-dev \
   librsvg2-dev \
@@ -179,7 +178,7 @@ ARG VIPS_URL=https://github.com/libvips/libvips/archive/refs/tags
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/v${VIPS_VERSION}.tar.gz \
   && tar xf v${VIPS_VERSION}.tar.gz \
   && cd libvips-${VIPS_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
+  && meson -Dintrospection=false build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
