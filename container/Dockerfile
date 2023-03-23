@@ -26,8 +26,7 @@ RUN apt-get update && apt-get install -y \
   libexpat-dev \
   libpango1.0-dev \
   librsvg2-dev \
-  libpng-dev \
-  libjpeg-dev \
+  libjpeg-turbo8-dev \
   libtiff5-dev \
   libexif-dev \
   liblcms2-dev \
