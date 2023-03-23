@@ -61,7 +61,7 @@ ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
 RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
   && tar xf orc-${ORC_VERSION}.tar.xz \
   && cd orc-${ORC_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -84,7 +84,7 @@ ARG IMAGEQUANT_URL=https://github.com/lovell/libimagequant
 RUN git clone $IMAGEQUANT_URL \
   && cd libimagequant \
   && git checkout $IMAGEQUANT_VERSION \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -96,7 +96,7 @@ ARG CGIF_URL=https://github.com/dloebl/cgif/archive/refs/tags
 RUN wget ${CGIF_URL}/V${CGIF_VERSION}.tar.gz \
   && tar xf V${CGIF_VERSION}.tar.gz \
   && cd cgif-${CGIF_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -108,7 +108,7 @@ ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
 RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
   && tar xf v${SPNG_VERSION}.tar.gz \
   && cd libspng-${SPNG_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
