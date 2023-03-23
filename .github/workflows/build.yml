@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build package
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: false
           file: container/Dockerfile
@@ -37,7 +37,7 @@ jobs:
 
       - name: Extract assets
         id: extract
-        uses: shrink/actions-docker-extract@v1
+        uses: shrink/actions-docker-extract@v2
         with:
           image: ${{ env.vips_image }}
           path: usr/local/vips/build/.
