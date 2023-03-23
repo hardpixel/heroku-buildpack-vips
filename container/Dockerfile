@@ -23,19 +23,16 @@ RUN pip3 install meson
 # libgsf needs libxml2
 RUN apt-get update && apt-get install -y \
   glib-2.0-dev \
-  libgirepository1.0-dev \
   libexpat-dev \
   libpango1.0-dev \
   librsvg2-dev \
-  libpng-dev \
-  libjpeg-dev \
+  libjpeg-turbo8-dev \
   libtiff5-dev \
   libexif-dev \
   liblcms2-dev \
   libxml2-dev \
   libfftw3-dev \
-  libwebp-dev \
-  libmagickcore-dev
+  libwebp-dev
 
 # build our stack to this prefix
 ARG VIPS_PREFIX=/usr/local/vips
@@ -61,7 +58,7 @@ ARG ORC_URL=https://gstreamer.freedesktop.org/src/orc
 RUN wget ${ORC_URL}/orc-$ORC_VERSION.tar.xz \
   && tar xf orc-${ORC_VERSION}.tar.xz \
   && cd orc-${ORC_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -84,7 +81,7 @@ ARG IMAGEQUANT_URL=https://github.com/lovell/libimagequant
 RUN git clone $IMAGEQUANT_URL \
   && cd libimagequant \
   && git checkout $IMAGEQUANT_VERSION \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -96,7 +93,7 @@ ARG CGIF_URL=https://github.com/dloebl/cgif/archive/refs/tags
 RUN wget ${CGIF_URL}/V${CGIF_VERSION}.tar.gz \
   && tar xf V${CGIF_VERSION}.tar.gz \
   && cd cgif-${CGIF_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -108,7 +105,7 @@ ARG SPNG_URL=https://github.com/randy408/libspng/archive/refs/tags
 RUN wget ${SPNG_URL}/v${SPNG_VERSION}.tar.gz \
   && tar xf v${SPNG_VERSION}.tar.gz \
   && cd libspng-${SPNG_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib \
+  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
@@ -179,7 +176,7 @@ ARG VIPS_URL=https://github.com/libvips/libvips/archive/refs/tags
 RUN wget ${VIPS_URL}/v${VIPS_VERSION}/v${VIPS_VERSION}.tar.gz \
   && tar xf v${VIPS_VERSION}.tar.gz \
   && cd libvips-${VIPS_VERSION} \
-  && meson build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
+  && meson -Dintrospection=false build --prefix=${VIPS_PREFIX} --libdir=lib --buildtype=release \
   && cd build \
   && ninja \
   && ninja install
