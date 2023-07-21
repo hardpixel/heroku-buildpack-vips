@@ -27,6 +27,8 @@ RUN apt-get update && apt-get install -y \
   libpango1.0-dev \
   librsvg2-dev \
   libjpeg-turbo8-dev \
+  libopenjp2-7-dev \
+  libopenexr-dev \
   libtiff5-dev \
   libexif-dev \
   liblcms2-dev \
