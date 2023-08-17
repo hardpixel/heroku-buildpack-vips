@@ -20,7 +20,7 @@ Deploy to Heroku and verify the result by running this command:
 
 ```
 $ heroku run vips -v
-vips 8.14.3
+vips 8.14.4
 ```
 
 ## Configuration
